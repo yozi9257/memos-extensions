@@ -1,5 +1,7 @@
 # memos-extensions
 
+> For Memos 0.25.x +
+
 <p align="center">
  [<a href="https://github.com/yozi9257/memos-extensions/blob/main/README_EN.md">English</a>]  [<a href="https://github.com/yozi9257/memos-extensions/blob/main/README.md">简体中文</a>] 
 </p>
@@ -44,4 +46,5 @@ This extension is developed based on the [memos-bber](https://github.com/lmm214/
 ### License
 
 This project is open-source under the **MIT License**. For detailed license terms, please refer to the [LICENSE](LICENSE) file.
+
 
