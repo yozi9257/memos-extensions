@@ -103,5 +103,14 @@
    },
    "getLinkFailed": {
       "message": "Get Link Failed 😭"
+   },
+   "popOut": {
+      "message": "Open in new window"
+   },
+   "closeWindow": {
+      "message": "Close window"
+   },
+   "openSidebar": {
+      "message": "Open Memos in sidebar"
    }
 }

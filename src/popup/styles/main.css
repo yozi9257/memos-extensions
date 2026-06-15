@@ -398,6 +398,142 @@ input.inputer {
     background-color: rgb(243 244 246 / var(--tw-bg-opacity))
 }
 
+/* ========== 窗口模式样式 ========== */
+
+/* 窗口模式下 body 更宽 */
+body.window-mode {
+    min-width: 580px;
+    padding: 0 1.25rem 1.25rem;
+}
+
+/* 窗口顶部标题栏：flex 布局，左标题 + 右按钮 */
+.window-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+    position: relative;
+}
+
+.window-header-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* 窗口模式下的关闭按钮 */
+.window-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: transparent;
+    color: #666;
+    opacity: 0.6;
+    transition: all 0.15s ease;
+}
+
+.window-close-btn:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+/* 弹出到新窗口按钮 */
+.popout-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: transparent;
+    color: #666;
+    opacity: 0.6;
+    transition: all 0.15s ease;
+    margin-right: 2px;
+}
+
+.popout-btn:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+/* ========== 侧边栏模式样式 ========== */
+
+/* 侧边栏模式下 body 适配窄屏 */
+body.sidepanel-mode {
+    min-width: unset;
+    width: 100%;
+    padding: 0 0.75rem 0.75rem;
+}
+
+/* 侧边栏模式下隐藏弹出按钮 */
+body.sidepanel-mode .popout-btn {
+    display: none;
+}
+
+/* 侧边栏模式下编辑器更紧凑 */
+body.sidepanel-mode .memo-editor {
+    margin-top: 0.5rem;
+    padding: 0.4rem;
+}
+
+body.sidepanel-mode .common-editor-inputer {
+    min-height: 30px;
+    max-height: 200px;
+}
+
+/* 侧边栏模式下工具条紧凑排列 */
+body.sidepanel-mode .common-tools-wrapper {
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+body.sidepanel-mode .common-tools-container svg.icon,
+body.sidepanel-mode #blog_info_edit svg.icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* 侧边栏标题调整 */
+body.sidepanel-mode .title {
+    width: 70px;
+    font-size: 1rem;
+    line-height: 2rem;
+}
+
+body.sidepanel-mode .window-header {
+    padding-top: 0.25rem;
+}
+
+/* 侧边栏开关按钮 */
+.sidebar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: transparent;
+    color: #666;
+    opacity: 0.6;
+    transition: all 0.15s ease;
+    margin-right: 2px;
+}
+
+.sidebar-btn:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
 .selector-wrapper>.items-wrapper>.item-lock.selected {
     --tw-text-opacity: 1;
     color: rgb(22 163 74 / var(--tw-text-opacity))

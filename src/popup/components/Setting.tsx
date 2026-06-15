@@ -4,7 +4,31 @@ import toast from 'react-hot-toast';
 import { useChromeStorage } from '../context/StorageContext';
 import { createMemosInstance, getUserId } from "../api/memos"
 
-export default function Setting() {
+// 弹出到新窗口
+const handlePopOut = () => {
+    chrome.windows.create({
+        url: chrome.runtime.getURL("index.html?mode=window"),
+        type: "popup",
+        width: 620,
+        height: 660
+    });
+};
+
+// 在侧边栏中打开
+const handleOpenSidebar = async () => {
+    await chrome.sidePanel.setOptions({ path: 'index.html?mode=sidepanel' });
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    if (tab?.id) {
+        chrome.sidePanel.open({ tabId: tab.id });
+    }
+};
+
+interface SettingProps {
+    isWindowMode?: boolean;
+    isSidepanelMode?: boolean;
+}
+
+export default function Setting({ isWindowMode = false, isSidepanelMode = false }: SettingProps) {
     // 获取存储操作方法
     const { storage, setStorage, isInitialized } = useChromeStorage();
     // 状态管理
@@ -55,15 +79,46 @@ export default function Setting() {
 
     return (
         <>
-            <div className="title" id="opensite" onClick={handleOpenSite}>MEMOS</div>
-            <div id="blog_info_edit">
-                {/* 配置按钮 */}
-                <button onClick={() => setShowSetting(!showSetting)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" className="icon" viewBox="0 0 1024 1024">
-                        <path d="M914 432c-5-26-21-43-41-43h-4c-54 0-99-44-99-99 0-17 9-37 9-38 10-22 2-50-18-65l-103-57h-1c-21-9-49-4-64 12-12 12-50 44-79 44s-68-33-79-45a60 60 0 0 0-64-13l-106 58-2 1a54 54 0 0 0-18 65c0 1 9 21 9 38 0 55-45 99-99 99h-5c-19 0-35 17-40 43 0 2-9 45-9 80s9 79 9 81c5 25 21 42 41 42h4c54 0 99 45 99 99 0 18-9 37-9 38-10 23-2 51 18 65l101 56 1 1c21 9 49 3 65-13 14-15 52-47 80-47 30 0 69 35 81 48a58 58 0 0 0 64 14l104-58 2-1c20-14 28-42 18-65 0-1-9-20-9-38 0-54 45-99 99-99h5c19 0 35-17 40-42 0-2 9-46 9-81s-9-78-9-80m-51 80c0 23-5 52-7 64a158 158 0 0 0-134 215l-89 49c-4-5-17-18-35-31-31-23-61-35-88-35s-57 12-88 34c-17 13-30 26-34 31l-86-48a159 159 0 0 0-134-215c-2-12-7-41-7-64 0-22 5-51 7-64a157 157 0 0 0 134-214l91-50c4 4 17 17 35 29 30 22 59 33 86 33s55-11 85-32c18-13 31-25 35-29l88 49a159 159 0 0 0 134 214c2 13 7 42 7 64" />
-                        <path d="M510 366a146 146 0 1 0 1 292 146 146 0 0 0-1-292m87 146a87 87 0 1 1-173-1 87 87 0 0 1 173 1" />
-                    </svg>
-                </button>
+            <div className="window-header">
+                <div className="window-header-left">
+                    {isWindowMode && (
+                        <button className="window-close-btn" onClick={() => window.close()} title={chrome.i18n.getMessage("closeWindow") || "关闭窗口"}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 6 6 18" />
+                                <path d="m6 6 12 12" />
+                            </svg>
+                        </button>
+                    )}
+                    <div className="title" id="opensite" onClick={handleOpenSite}>MEMOS</div>
+                </div>
+                <div id="blog_info_edit">
+                    {/* 弹出到新窗口按钮（弹窗/侧边栏模式下显示，窗口模式下隐藏） */}
+                    {!isWindowMode && (
+                        <button className="popout-btn" onClick={handlePopOut} title={chrome.i18n.getMessage("popOut") || "弹出到新窗口"}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                <polyline points="15 3 21 3 21 9" />
+                                <line x1="10" y1="14" x2="21" y2="3" />
+                            </svg>
+                        </button>
+                    )}
+                    {/* 在侧边栏中打开按钮（弹窗/窗口模式下显示，侧边栏模式下隐藏） */}
+                    {!isSidepanelMode && (
+                        <button className="sidebar-btn" onClick={handleOpenSidebar} title={chrome.i18n.getMessage("openSidebar") || "在侧边栏中打开"}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                <line x1="9" y1="3" x2="9" y2="21" />
+                            </svg>
+                        </button>
+                    )}
+                    {/* 配置按钮 */}
+                    <button onClick={() => setShowSetting(!showSetting)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" className="icon" viewBox="0 0 1024 1024">
+                            <path d="M914 432c-5-26-21-43-41-43h-4c-54 0-99-44-99-99 0-17 9-37 9-38 10-22 2-50-18-65l-103-57h-1c-21-9-49-4-64 12-12 12-50 44-79 44s-68-33-79-45a60 60 0 0 0-64-13l-106 58-2 1a54 54 0 0 0-18 65c0 1 9 21 9 38 0 55-45 99-99 99h-5c-19 0-35 17-40 43 0 2-9 45-9 80s9 79 9 81c5 25 21 42 41 42h4c54 0 99 45 99 99 0 18-9 37-9 38-10 23-2 51 18 65l101 56 1 1c21 9 49 3 65-13 14-15 52-47 80-47 30 0 69 35 81 48a58 58 0 0 0 64 14l104-58 2-1c20-14 28-42 18-65 0-1-9-20-9-38 0-54 45-99 99-99h5c19 0 35-17 40-42 0-2 9-46 9-81s-9-78-9-80m-51 80c0 23-5 52-7 64a158 158 0 0 0-134 215l-89 49c-4-5-17-18-35-31-31-23-61-35-88-35s-57 12-88 34c-17 13-30 26-34 31l-86-48a159 159 0 0 0-134-215c-2-12-7-41-7-64 0-22 5-51 7-64a157 157 0 0 0 134-214l91-50c4 4 17 17 35 29 30 22 59 33 86 33s55-11 85-32c18-13 31-25 35-29l88 49a159 159 0 0 0 134 214c2 13 7 42 7 64" />
+                            <path d="M510 366a146 146 0 1 0 1 292 146 146 0 0 0-1-292m87 146a87 87 0 1 1-173-1 87 87 0 0 1 173 1" />
+                        </svg>
+                    </button>
+                </div>
             </div>
             {/* 配置memos连接 */}
             <div id="blog_info" className="">
@@ -84,7 +139,7 @@ export default function Setting() {
                             id="apiTokens"
                             className="inputer"
                             name="apiTokens"
-                            type="text"
+                            type="password"
                             maxLength={245}
                             placeholder={chrome.i18n.getMessage("placeApiTokens")}
                             required={true}

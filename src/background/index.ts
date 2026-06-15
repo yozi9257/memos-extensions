@@ -24,11 +24,31 @@ chrome.runtime.onInstalled.addListener(() => {
       contexts: ['image']
     },
   )
+  // 在侧边栏中打开 Memos
+  chrome.contextMenus.create(
+    {
+      type: 'normal',
+      title: chrome.i18n.getMessage("openSidebar"),
+      id: 'Memos-open-sidebar',
+      contexts: ['all']
+    },
+  )
 })
 
 
 // 处理上下文菜单逻辑
 chrome.contextMenus.onClicked.addListener(info => {
+  // 处理侧边栏打开
+  if (info.menuItemId === 'Memos-open-sidebar') {
+    chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
+      if (tabs[0]?.id) {
+        await chrome.sidePanel.setOptions({ path: 'index.html?mode=sidepanel' });
+        chrome.sidePanel.open({ tabId: tabs[0].id });
+      }
+    });
+    return;
+  }
+
   let tempCont = ''
   switch (info.menuItemId) {
     case 'Memos-send-selection':

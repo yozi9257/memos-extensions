@@ -103,5 +103,14 @@
    },
    "getLinkFailed": {
       "message": "获取链接失败 😭"
+   },
+   "popOut": {
+      "message": "弹出到新窗口"
+   },
+   "closeWindow": {
+      "message": "关闭窗口"
+   },
+   "openSidebar": {
+      "message": "在侧边栏中打开 Memos"
    }
 }

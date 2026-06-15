@@ -23,10 +23,14 @@
   "background": {
     "service_worker": "background.js"
   },
+  "side_panel": {
+    "default_path": "index.html"
+  },
   "permissions": [
     "tabs",
     "storage",
     "activeTab",
-    "contextMenus"
+    "contextMenus",
+    "sidePanel"
   ]
 }
