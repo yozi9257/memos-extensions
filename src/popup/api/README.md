@@ -12,16 +12,30 @@
 接口调用示例：
 
 ```
-GET https://memo.xxxxxx.com/api/v1/auth/sessions/current
+GET https://memo.xxxxxx.com/api/v1/auth/me
 Content-Type: application/json
 Authorization: Bearer YOUR_TOKEN
 ```
 
-### 接口概要 
+### 接口概要
 
-获取当前用户(会话)信息： GET /api/v1/auth/sessions/current​
-可获取到用户id, 返回的name格式为 users/{user} user即id 
+获取当前用户(会话)信息： GET /api/v1/auth/me
+可获取到用户id, 返回的name格式为 users/{user} user即id
 
 ```json
-{"user":{"name":"users/2", "role":"USER", "username":"test", "email":"", "displayName":"", "avatarUrl":"", "description":"", "password":"", "state":"NORMAL", "createTime":"2025-09-10T07:00:37Z", "updateTime":"2025-09-10T07:00:37Z"}, "lastAccessedAt":null}
+{
+  "user": {
+    "name": "users/admin",
+    "role": "ADMIN",
+    "username": "admin",
+    "email": "",
+    "displayName": "",
+    "avatarUrl": "",
+    "description": "",
+    "password": "",
+    "state": "NORMAL",
+    "createTime": "2026-06-15T08:38:36Z",
+    "updateTime": "2026-06-15T08:38:36Z"
+  }
+}
 ```

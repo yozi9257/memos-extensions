@@ -111,7 +111,7 @@ export const createMemosInstance = (apiUrl: string, apiToken: string): AxiosInst
 // 获取用户ID
 export const getUserId = async (memos: AxiosInstance): Promise<string | undefined> => {
     try {
-        const response = await memos.get('/api/v1/auth/sessions/current');
+        const response = await memos.get('/api/v1/auth/me');
         return response.data.user.name.split('/').pop()
     } catch (error) {
         console.error(error);

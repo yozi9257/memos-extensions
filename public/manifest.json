@@ -19,6 +19,7 @@
       "64": "icons/icon-64.png"
     }
   },
+  "host_permissions": ["*://*/*"],
   "background": {
     "service_worker": "background.js"
   },
